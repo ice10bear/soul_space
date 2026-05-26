@@ -6,8 +6,15 @@ tg.expand(); // Разворачиваем на максимум для эффе
 // Локальный стейт приложения
 const appState = {
     sphere: null,
-    mood: "",
-    backendUrl: "http://127.0.0.1:8000/api/so-na-stroyka" // Поменяйте на ваш прод URL в будущем
+    mood: ""
+};
+
+// Словарь для красивого перевода ключей сфер
+const SPHERES_RU = {
+    "career": "💼 Карьера / Финансы",
+    "relations": "❤️ Отношения",
+    "health": "🍏 Здоровье / Энергия",
+    "balance": "🧘‍♂️ Внутренний баланс"
 };
 
 // Функция переключения экранов
@@ -18,7 +25,7 @@ function navigateTo(screenId) {
     setTimeout(() => {
         const targetScreen = document.getElementById(screenId);
         if (targetScreen) targetScreen.classList.add('active');
-    }, 50); // Минимальный таймаут для чистого триггера CSS transition
+    }, 50);
 }
 
 // Экран 1 -> Экран 2
@@ -29,14 +36,15 @@ document.getElementById('btn-start').addEventListener('click', () => {
 // Экран 2 (Выбор сферы) -> Авто-переход на Экран 3
 document.querySelectorAll('.sphere-card').forEach(card => {
     card.addEventListener('click', function() {
-        // Убираем выделение у остальных
         document.querySelectorAll('.sphere-card').forEach(c => c.classList.remove('selected'));
         
-        // Выделяем текущую
         this.classList.add('selected');
-        appState.sphere = this.getAttribute('data-sphere');
         
-        // Эстетичная пауза, чтобы пользователь увидел подсветку золотым градиентом
+        // Получаем технический ключ сферы (career, relations, etc.)
+        const sphereKey = this.getAttribute('data-sphere');
+        // Переводим в красивое название
+        appState.sphere = SPHERES_RU[sphereKey] || "Внутренний баланс";
+        
         setTimeout(() => {
             navigateTo('screen-3');
         }, 400);
@@ -49,51 +57,28 @@ const btnSubmit = document.getElementById('btn-submit');
 
 moodTextarea.addEventListener('input', function() {
     appState.mood = this.value.trim();
-    // Активируем кнопку только если введено хотя бы 5 символов
+    // Кнопка активна, если введено от 5 символов
     btnSubmit.disabled = appState.mood.length < 5;
 });
 
-// Отправка данных на бэкенд
-btnSubmit.addEventListener('click', async () => {
-    navigateTo('screen-4'); // Переходим на экран лоадера
+// НАШ НАТИВНЫЙ МОСТИК: Отправка данных прямо в чат Telegram
+btnSubmit.addEventListener('click', () => {
+    navigateTo('screen-4'); // Включаем красивый лоадер ("Наставник настраивается...")
 
-    // Собираем данные. Безопасно передаем initData для валидации на бэкенде
+    // Собираем пакет данных для бота
     const payload = {
-        init_data: tg.initData, 
         sphere: appState.sphere,
         mood: appState.mood
     };
 
-    try {
-        const response = await fetch(appState.backendUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) throw new Error('Ошибка сервера');
-
-        const data = await response.json();
-        
-        // Наполняем блоки текстом из ответа ИИ
-        document.querySelector('#block-grounding .block-content').innerText = data.grounding;
-        document.querySelector('#block-focus .block-content').innerText = data.focus;
-        document.querySelector('#block-visualization .block-content').innerText = data.visualization;
-
-        // Переходим к финалу
-        navigateTo('screen-5');
-
-    } catch (error) {
-        console.error(error);
-        // В случае ошибки возвращаем на шаг ввода, в реальном проекте лучше показать алерт
-        tg.showAlert("Не удалось связаться с Наставником. Попробуйте еще раз.");
-        navigateTo('screen-3');
-    }
+    // Отправляем данные в чат и закрываем мини-приложение
+    setTimeout(() => {
+        tg.sendData(JSON.stringify(payload));
+        tg.close();
+    }, 1000); // Небольшая задержка, чтобы пользователь успел прочувствовать экран лоадера
 });
 
-// Закрытие Mini App при клике на финальную кнопку
+// Закрытие Mini App при клике на финальную кнопку (если экран 5 используется внутри)
 document.getElementById('btn-close').addEventListener('click', () => {
     tg.close();
 });
