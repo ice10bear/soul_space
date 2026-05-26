@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SoulSpace</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <section id="screen-1" class="screen active">
+            <div class="logo-container">
+                <div class="gold-glow"></div>
+                <div class="main-logo">✨</div>
+            </div>
+            <h1 class="fade-in">Приветствуем в SoulSpace</h1>
+            <p class="subtitle fade-in">Пространство Вашего утреннего спокойствия...</p>
+            <button id="btn-start" class="btn-primary type-gold">Начать сонастройку</button>
+        </section>
+
+        <section id="screen-2" class="screen">
+            <h2>Выберите сферу внимания</h2>
+            <p class="subtitle">Что требует сонастройки сегодня?</p>
+            
+            <div class="spheres-grid">
+                <div class="sphere-card" data-sphere="career">
+                    <span class="sphere-icon">💼</span>
+                    <span class="sphere-title">Карьера / Финансы</span>
+                </div>
+                <div class="sphere-card" data-sphere="relations">
+                    <span class="sphere-icon">❤️</span>
+                    <span class="sphere-title">Отношения</span>
+                </div>
+                <div class="sphere-card" data-sphere="health">
+                    <span class="sphere-icon">🍏</span>
+                    <span class="sphere-title">Здоровье / Энергия</span>
+                </div>
+                <div class="sphere-card" data-sphere="balance">
+                    <span class="sphere-icon">🧘</span>
+                    <span class="sphere-title">Внутренний баланс</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="screen-3" class="screen">
+            <h2>Ваше состояние</h2>
+            <p class="subtitle">Опишите парой предложений ваше текущее состояние или мысли. Наставник выслушает Вас...</p>
+            
+            <div class="input-container">
+                <textarea id="mood-text" placeholder="Сегодня я чувствую..." rows="5"></textarea>
+            </div>
+            
+            <button id="btn-submit" class="btn-primary" disabled>Отправить Наставнику</button>
+        </section>
+
+        <section id="screen-4" class="screen">
+            <div class="pulse-sphere"></div>
+            <p class="loading-text">✨ Наставник настраивается на Вашу волну...</p>
+        </section>
+
+        <section id="screen-5" class="screen">
+            <h2>Ваша сонастройка</h2>
+            <p class="subtitle">Примите эти слова с благодарностью</p>
+            
+            <div class="practice-container">
+                <div class="practice-block" id="block-grounding">
+                    <h3>Заземление</h3>
+                    <p class="block-content"></p>
+                </div>
+                <div class="practice-block" id="block-focus">
+                    <h3>Настройка внимания</h3>
+                    <p class="block-content"></p>
+                </div>
+                <div class="practice-block" id="block-visualization">
+                    <h3>Визуализация</h3>
+                    <p class="block-content"></p>
+                </div>
+            </div>
+
+            <button id="btn-close" class="btn-primary type-gold">Завершить практику</button>
+        </section>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

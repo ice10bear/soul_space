@@ -1,0 +1,305 @@
+/* Базовые сбросы стилей для нативного ощущения */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(circle at 50% 30%, #1a1936 0%, #0d0c1d 100%);
+    color: #f5f5f7;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Контейнер приложения под размер экрана Telegram */
+.app-container {
+    width: 100%;
+    max-width: 480px;
+    height: 100vh;
+    position: relative;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Логика экранов */
+.screen {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.6s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Типографика */
+h1 {
+    font-size: 26px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #ffffff 0%, #e0dbec 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h2 {
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #9292a6;
+    line-height: 1.5;
+    margin-bottom: 32px;
+    font-weight: 300;
+}
+
+/* Премиум Кнопки */
+.btn-primary {
+    width: 100%;
+    padding: 16px 24px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    margin-top: auto; /* Прижимает к низу экрана */
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Золотой премиум акцент */
+.btn-primary.type-gold {
+    background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
+    color: #0d0c1d;
+    border: none;
+    font-weight: 600;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+}
+
+.btn-primary.type-gold:active {
+    box-shadow: 0 2px 10px rgba(212, 175, 55, 0.1);
+    background: linear-gradient(135deg, #c5a030 0%, #966d0e 100%);
+}
+
+/* Логотип на главном экране */
+.logo-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 40px;
+}
+
+.main-logo {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(214, 175, 55, 0.3); /* Тонкая золотая кайма */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
+.gold-glow {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle, rgba(214, 175, 55, 0.15) 0%, transparent 70%);
+    filter: blur(10px);
+    animation: pulse 4s infinite alternate;
+}
+
+/* Сетки интерактивных карточек */
+.spheres-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.sphere-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sphere-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+    transition: transform 0.3s ease;
+}
+
+.sphere-title {
+    font-size: 14px;
+    font-weight: 400;
+    color: #e0dbec;
+}
+
+/* Подсветка карточки при выборе */
+.sphere-card.selected {
+    background: linear-gradient(135deg, rgba(214, 175, 55, 0.08) 0%, rgba(170, 124, 17, 0.03) 100%);
+    border-color: rgba(214, 175, 55, 0.6);
+    box-shadow: 0 8px 25px rgba(214, 175, 55, 0.1);
+}
+
+.sphere-card.selected .sphere-icon {
+    transform: scale(1.15);
+}
+
+/* Текстовое поле */
+.input-container {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 16px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+textarea:focus {
+    border-color: rgba(214, 175, 55, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 15px rgba(214, 175, 55, 0.05);
+}
+
+/* Пульсирующая сфера (Лоадер) */
+.pulse-sphere {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(214, 175, 55, 0.3) 0%, rgba(26, 25, 54, 0) 70%);
+    position: relative;
+    margin-bottom: 32px;
+}
+
+.pulse-sphere::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(214, 175, 55, 0.4);
+    animation: heartBeat 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.loading-text {
+    font-size: 15px;
+    color: #e0dbec;
+    animation: pulse 2s infinite alternate;
+}
+
+/* Контейнер финального ответа */
+.practice-container {
+    width: 100%;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+    padding-right: 4px;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+/* Стилизация скроллбара */
+.practice-container::-webkit-scrollbar {
+    width: 4px;
+}
+.practice-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.practice-block {
+    background: rgba(255, 255, 255, 0.02);
+    border-left: 2px solid rgba(214, 175, 55, 0.5);
+    padding: 16px;
+    border-radius: 0 16px 16px 0;
+    margin-bottom: 16px;
+}
+
+.practice-block h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #d4af37;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.practice-block p {
+    font-size: 14px;
+    color: #e0dbec;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+/* Анимации */
+@keyframes pulse {
+    0% { opacity: 0.6; transform: scale(0.98); }
+    100% { opacity: 1; transform: scale(1.02); }
+}
+
+@keyframes heartBeat {
+    0% { transform: scale(0.8); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0.9; }
+    100% { transform: scale(1.4); opacity: 0; }
+}
